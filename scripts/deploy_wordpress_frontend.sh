@@ -15,7 +15,7 @@ wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -
 #Le damos permisos de ejecución:
 chmod +x /tmp/wp-cli.phar
 
-#Movemos el script wp-cli al directorio /usr/local/bin:
+#Movemos el script directorio /usr/local/bin:
 mv /tmp/wp-cli.phar /usr/local/bin/wp
 
 #Eliminamos instalaciones previas:
@@ -24,7 +24,7 @@ rm -rf /var/www/html/*
 #Descargamos el codigo fuente de WordPress:
 wp core download --locale=es_ES --path=$RUTA --allow-root
 
-#Cambiamos el propietario y el grupo al directorio /var/www/html:
+#Cambiamos el propietario /var/www/html:
 chown -R www-data:www-data /var/www/html/
 
 #Creamos el archivo de configuración:
@@ -46,7 +46,7 @@ wp core install \
   --path=$RUTA \
   --allow-root
 
-#Instalamos y activamos el tema midnscape:
+#Instalamos y activamos el tema:
 wp theme install astra --activate --path=$RUTA --allow-root
 
 #Instalamos un plugin de url:
@@ -61,5 +61,5 @@ wp rewrite structure '/%postname%/' --path=$RUTA --allow-root
 #Copiamos el archivo .htaccess:
 cp ../htaccess/.htaccess /var/www/html
 
-#Modificamos el propietario y el grupo del directio de /var/www/html:
+#Modificamos el propietario y el grupo del directorio de /var/www/html:
 chown -R www-data:www-data /var/www/html
