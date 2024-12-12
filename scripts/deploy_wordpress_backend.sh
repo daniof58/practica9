@@ -1,22 +1,14 @@
 #!/bin/bash
 
-# Muestra todos los comandos que se van ejecutando:
+#Monstrar los comandos y parar la ejecución si hay error:
 set -ex
 
-# Actualizamos los repositorios:
-apt update
-
-#Actualizar los paquetes:
-#apt upgrade -y
-
-# Importamos el archivo de variables .env:
+#Importamos el archivo con las variables de entorno:
 source .env
 
-#Instalación MySQL:
-apt install mysql-server -y
-
-#Configuramos el archivo /etc/mysql/mysql.conf.d/mysqld.cnf:
-sed -i "s/127.0.0.1/$BACKEND_PRIVATE_IP/" /etc/mysql/mysql.conf.d/mysqld.cnf
-
-#Reiniciamos el servicio MySQL:
-systemctl restart mysql
+#Creamos la base de datos y el ususario para WordPress:
+mysql -u root <<< "DROP DATABASE IF EXISTS $WORDPRESS_DB_NAME"
+mysql -u root <<< "CREATE DATABASE $WORDPRESS_DB_NAME"
+mysql -u root <<< "DROP USER IF EXISTS $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP"
+mysql -u root <<< "CREATE USER $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP IDENTIFIED BY '$WORDPRESS_DB_PASSWORD'"
+mysql -u root <<< "GRANT ALL PRIVILEGES ON $WORDPRESS_DB_NAME.* TO $WORDPRESS_DB_USER@$FRONTEND_PRIVATE_IP"
