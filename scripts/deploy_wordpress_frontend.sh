@@ -22,7 +22,7 @@ mv /tmp/wp-cli.phar /usr/local/bin/wp
 rm -rf /var/www/html/*
 
 #Descargamos el codigo fuente de WordPress:
-wp core download --locale=es_ES --path=/var/www/html --allow-root
+wp core download --locale=es_ES --path=$RUTA --allow-root
 
 #Cambiamos el propietario y el grupo al directorio /var/www/html:
 chown -R www-data:www-data /var/www/html/
@@ -33,7 +33,7 @@ wp config create \
   --dbuser=$WORDPRESS_DB_USER \
   --dbpass=$WORDPRESS_DB_PASSWORD \
   --dbhost=$WORDPRESS_DB_HOST \
-  --path=/var/www/html \
+  --path=$RUTA \
   --allow-root
 
 #Instalamos WordPress:
@@ -43,20 +43,20 @@ wp core install \
   --admin_user=$WORDPRESS_ADMIN_USER \
   --admin_password=$WORDPRESS_ADMIN_PASS \
   --admin_email=$CB_EMAIL \
-  --path=/var/www/html \
+  --path=$RUTA \
   --allow-root
 
 #Instalamos y activamos el tema midnscape:
-wp theme install astra --activate --path=/var/www/html --allow-root
+wp theme install astra --activate --path=$RUTA --allow-root
 
 #Instalamos un plugin de url:
-wp plugin install wps-hide-login --activate --path=/var/www/html --allow-root
+wp plugin install wps-hide-login --activate --path=$RUTA --allow-root
 
 #Configuramos el plugin de url:
-wp option update whl_page "$WORDPRESS_HIDE_LOGIN_URL" --path=/var/www/html --allow-root
+wp option update whl_page "$WORDPRESS_HIDE_LOGIN_URL" --path=$RUTA --allow-root
 
 #Enlaces permanentes:
-wp rewrite structure '/%postname%/' --path=/var/www/html --allow-root
+wp rewrite structure '/%postname%/' --path=$RUTA --allow-root
 
 #Copiamos el archivo .htaccess:
 cp ../htaccess/.htaccess /var/www/html
